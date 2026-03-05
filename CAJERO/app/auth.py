@@ -1,18 +1,54 @@
-from app.colores import ROJO, VERDE, AMARILLO, CYAN, NEGRITA
-def auth():
-    print(CYAN + NEGRITA + "\n=== AUTENTICACIÓN ===")
+from database.users import cuentas
 
-    PIN_CORRECTO = "1234"
-    intentos_maximos = 3
+ROJO = "\033[31m"
+VERDE = "\033[32m"
+AMARILLO = "\033[33m"
+CYAN = "\033[36m"
+NEGRITA = "\033[1m"
+RESET = "\033[0m"
 
-    for intento in range(intentos_maximos):
-        pin = input(AMARILLO + "Ingrese su PIN: ")
+def auth(cuentas):
+    print(CYAN + NEGRITA + "\n=== SISTEMA DE SEGURIDAD V2 ===" + RESET)
 
-        if pin == PIN_CORRECTO:
-            print(VERDE + "Acceso concedido ✅")
-            return True
+    intentos_usuario = 3
+
+    # --- BUCLE PARA EL NOMBRE DE USUARIO ---
+    for i_u in range(intentos_usuario):
+        usuario_input = input(AMARILLO + "\nIngrese su nombre de usuario: " + RESET)
+        
+        # .capitalize() ayuda a que "luis" sea igual a "Luis" en tu BD
+        usuario = usuario_input.capitalize()
+
+        if usuario in cuentas:
+            # SI EL USUARIO EXISTE, PASAMOS AL PIN
+            print(VERDE + f"Usuario '{usuario}' reconocido. Proceda al PIN." + RESET)
+            
+            intentos_pin = 3
+            pin_db = cuentas[usuario]["pin"]
+
+            # --- BUCLE PARA EL PIN ---
+            for i_p in range(intentos_pin):
+                pin_ingresado = input(AMARILLO + f"Ingrese PIN para {usuario}: " + RESET)
+
+                if pin_ingresado == pin_db:
+                    print(VERDE + NEGRITA + "Acceso concedido ✅" + RESET)
+                    return usuario  # Éxito total: devolvemos el nombre
+                else:
+                    restantes_p = intentos_pin - (i_p + 1)
+                    if restantes_p > 0:
+                        print(ROJO + f"PIN incorrecto ❌ Quedan {restantes_p} intentos." + RESET)
+
+            # Si sale del bucle de PIN sin éxito
+            print(ROJO + NEGRITA + f"\nPIN bloqueado 🚫 La cuenta de {usuario} ha sido restringida." + RESET)
+            return None 
+
         else:
-            print(ROJO + f"PIN incorrecto ❌ Intentos restantes: {intentos_maximos - intento - 1}")
+            # SI EL USUARIO NO EXISTE
+            restantes_u = intentos_usuario - (i_u + 1)
+            if restantes_u > 0:
+                print(ROJO + f"Usuario no encontrado ❌ Intentos de búsqueda restantes: {restantes_u}" + RESET)
+            else:
+                print(ROJO + NEGRITA + "\nDemasiados intentos fallidos de usuario. Sistema bloqueado 🚫" + RESET)
+                return None
 
-    print(ROJO + NEGRITA + "Tarjeta bloqueada 🚫")
-    return False
+    return None

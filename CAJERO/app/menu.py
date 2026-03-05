@@ -1,44 +1,72 @@
-from clean_screen import *
-from progress_bar import *
-from logica_atm import *
+from app.clean_screen import clean_screen
+from app.progress_bar import progress_bar
+from app.logica_atm import *
+
+
+
+historial = []
+
+def agregar_historial(operacion):
+    historial.append(operacion) #añade la operacion al final de la lista
+
+def mostrar_historial():
+    if len(historial) == 0: #verifica si no hay operaciones registradas
+        print("No hay operaciones registradas.")
+        return
+    for i, entrada in enumerate(historial, 1): #recorre la lista numerando desde 1
+        print(f"{i}. {entrada}") # imprime cada operacion con su numero
+
 
 def menu(usuario):
-    print("1. Consultar saldo")
-    print("2. Depositar dinero")
-    print("3. Retirar dinero")
-    print("4. Historial")
-    print("5. Salir del cajero")
-
-    opcion = int(input("Ingresa la opcion (1-5): "))
-
-    if opcion == 1:
-        clean_screen()
-        progress_bar()
-        consultar_saldo(usuario)
+    while True: # <--- Iniciamos el bucle infinito
+        # Limpiamos la pantalla antes de mostrar el menú principal
+        # clean_screen() 
         
-    
-    elif opcion == 2:
-        clean_screen()
-        progress_bar()
-        depositar_dinero(usuario)
-    
-    elif retirar_dinero(usuario):
-        clean_screen()
-        progress_bar()
-        print("Hola")
+        print("\n" + "="*30)
+        print(f"   BIENVENIDO, {usuario.upper()}")
+        print("="*30)
+        print("1. Consultar saldo")
+        print("2. Depositar dinero")
+        print("3. Retirar dinero")
+        print("4. Historial")
+        print("5. Salir del cajero")
 
-    elif opcion == 4:
-        clean_screen()
-        progress_bar()
-        print("Hola")
+        try:
+            opcion = int(input("\nIngresa la opcion (1-5): "))
+        except ValueError:
+            print("Error: Por favor, ingresa solo números.")
+            continue # Reinicia el bucle si no es un número
 
-    elif opcion == 5:
-        print("Cerrando el cajero...")
+        if opcion == 1:
+            clean_screen()
+            progress_bar()
+            consultar_saldo(usuario)
+            input("\nPresiona ENTER para volver al menú...") # Pausa necesaria
+        
+        elif opcion == 2:
+            clean_screen()
+            progress_bar()
+            depositar_dinero(usuario)
+            input("\nPresiona ENTER para volver al menú...")
+        
+        elif opcion == 3:
+            clean_screen()
+            progress_bar()
+            retirar_dinero(usuario)
+            input("\nPresiona ENTER para volver al menú...")
 
-    else:
-        print("Opcion incorrecta, dijite una opcion valida (1-5).")
+        elif opcion == 4:
+            clean_screen()
+            progress_bar()
+            consultar_historial(usuario) # Llamada a la nueva función
+            input("\nPresiona ENTER para volver al menú...")
 
-if __name__ == "__main__":
-    menu()
-     
+        elif opcion == 5:
+            print("Cerrando el cajero... ¡Vuelva pronto!")
+            break # <--- Única forma de salir del bucle y cerrar el programa
+
+        else:
+            print("Opcion incorrecta, digite una opcion valida (1-5).")
+            input("\nPresiona ENTER para intentar de nuevo...")
+
 
