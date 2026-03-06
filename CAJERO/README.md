@@ -318,3 +318,20 @@ Proyecto desarrollado con fines educativos para practicar:
 -   Programación modular
 -   Manejo de estructuras de datos
 -   Simulación de sistemas reales
+
+------------------------------------------------------------------------
+
+
+# 🙌 ¡Gracias por tu tiempo!
+
+Espero que este código de calculadora te sea de gran utilidad.
+
+| Persona | Red Social | Enlace |
+| :--- | :--- | :--- |
+| **Yamit GC** | 📧 Email | yamitgc08@gmail.com |
+| | 💻 GitHub | github.com/YamitGC |
+| **Saeb GC** | 📧 Email | garcisaeb4@gmail.com |
+| | 💻 GitHub | github.com/SaebGC |
+| **Isaac Vasquez** | 📧 Email | id.vasquez999@gmail.com |
+| | 💻 GitHub | github.com/ivasquez-cmd |
+------------------------------------------------------------------------
